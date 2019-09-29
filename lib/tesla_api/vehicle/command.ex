@@ -375,6 +375,32 @@ defmodule TeslaApi.Vehicle.Command do
     |> result()
   end
 
+  @doc """
+  Opens the windows to vent.
+  """
+  @spec vent(Auth.t(), Vehicle.id()) :: :ok | {:error, Error.t()}
+  def vent(%Auth{token: token}, id) do
+    request(:post, "/api/1/vehicles/#{id}/command/window_control", token, %{
+      command: "vent",
+      lat: 0,
+      long: 0
+    })
+    |> result()
+  end
+
+  @doc """
+  Closes the windows.
+  """
+  @spec close_windows(Auth.t(), Vehicle.id()) :: :ok | {:error, Error.t()}
+  def close_windows(%Auth{token: token}, id) do
+    request(:post, "/api/1/vehicles/#{id}/command/window_control", token, %{
+      command: "close",
+      lat: 0,
+      long: 0
+    })
+    |> result()
+  end
+
   defp result(
          {:ok, %Env{status: 200, body: %{"response" => %{"reason" => "", "result" => true}}}}
        ) do
